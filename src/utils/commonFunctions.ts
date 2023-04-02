@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { deviceSizes } from "../constants";
+import { photo1, photo2, photo3, photo4 } from "../assets/images/photos";
 
 export function useTablet() {
   const initValue = window.matchMedia(
@@ -106,3 +107,33 @@ export const gameTypeSwitcher = (gameType: string) => {
       return "Every day";
   }
 };
+
+export const questions = [
+  {
+    id: 1,
+    name: "Соколовская Елена",
+    photo: photo1,
+  },
+  {
+    id: 2,
+    name: "Соколовская Анастасия",
+    photo: photo2,
+  },
+  {
+    id: 3,
+    name: "Шедова Светлана",
+    photo: photo3,
+  },
+  {
+    id: 4,
+    name: "Ракомская Татьяна",
+    photo: photo4,
+  },
+];
+
+export const guys = [
+  { name: "Соколовская Елена(Мама Макса)" },
+  { name: "Соколовская-Шедова Настя" },
+  { name: "Шедова Светлана(Мама Насти)" },
+  { name: "Ракомская Татьяна(Тетя Макса)" },
+];

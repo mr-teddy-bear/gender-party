@@ -1,5 +1,6 @@
 import logo from "./logo.png";
-export { logo };
+import gradient from "./gradient.jpg";
+export { logo, gradient };
 
 export { ReactComponent as PagingArrow } from "./PagingArrow.svg";
 export { ReactComponent as DotsIcon } from "./dots.svg";

@@ -1,6 +1,8 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import { gradient } from "../../assets/images";
+import { Finish } from "../../pages/Finish";
 import { Vote } from "../../pages/Vote";
 
 import { Menu } from "../Menu";
@@ -12,6 +14,7 @@ export const MainRouter = () => {
       <Content>
         <Routes>
           <Route path="" element={<Vote />} />
+          <Route path="finishTest" element={<Finish />} />
         </Routes>
       </Content>
     </Wrapper>
@@ -21,7 +24,8 @@ export const MainRouter = () => {
 const Wrapper = styled("div")`
   width: 100%;
   min-height: 100vh;
-  background: #f5f7f9;
+  background: url(${gradient});
+  background-size: cover;
 `;
 
 const Content = styled("div")`
