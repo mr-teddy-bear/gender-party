@@ -33,6 +33,7 @@ export const Vote = () => {
 
   const handleClick = (id: number) => {
     if (id === questions.length) {
+      localStorage.clear();
       navigate("/finishTest");
     } else {
       setActiveQuestion(id + 1);
