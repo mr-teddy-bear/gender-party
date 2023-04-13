@@ -1,10 +1,14 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import LoadingButton from "@mui/lab/LoadingButton/LoadingButton";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { useVote } from "../../../hooks/useVote";
+import { guys } from "../../../utils/commonFunctions";
 
 type Props = {
   imgSrc: string;
   qNumber: number;
+  userInfo: string;
   isActive?: boolean;
   onNextClick: () => void;
 };
@@ -14,18 +18,43 @@ export const SingleVote: FC<Props> = ({
   qNumber,
   isActive,
   onNextClick,
+  userInfo,
 }) => {
+  const { addVote, isAddVoteLoading } = useVote(onNextClick);
+  const [answer, setAnswer] = useState("");
+
+  const handleClick = () => {
+    addVote({ questionId: qNumber, user: userInfo, voteId: +answer });
+  };
+
   return (
     <Wrapper isActive={isActive}>
       <Title>Фото #{qNumber}</Title>
       <Image src={imgSrc} />
+      <FormControl size="small" sx={{ m: 1, minWidth: 140, width: "100%" }}>
+        <InputLabel id="status-select">Кто это?</InputLabel>
+        <Select
+          labelId="status-select"
+          value={answer}
+          onChange={e => setAnswer(e.target.value)}
+          autoWidth
+          label="Кто это?"
+        >
+          {guys.map(option => (
+            <MenuItem key={option.rightId} value={option.rightId}>
+              <em>{option.name}</em>
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <LoadingButton
         color="primary"
-        loading={false}
+        loading={isAddVoteLoading}
         variant="contained"
         fullWidth
         type="submit"
-        onClick={onNextClick}
+        onClick={handleClick}
+        disabled={!answer}
       >
         Дальше
       </LoadingButton>

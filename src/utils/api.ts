@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-export const apiRoute = process.env.REACT_APP_BASE_URL;
+export const apiRoute = "https://dcbe.vercel.app";
 
 export const queryClient = new QueryClient({
   defaultOptions: {

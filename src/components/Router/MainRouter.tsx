@@ -6,6 +6,7 @@ import { Finish } from "../../pages/Finish";
 import { Vote } from "../../pages/Vote";
 
 import { Menu } from "../Menu";
+import { Results } from "../../pages/Results";
 
 export const MainRouter = () => {
   return (
@@ -15,6 +16,7 @@ export const MainRouter = () => {
         <Routes>
           <Route path="" element={<Vote />} />
           <Route path="finishTest" element={<Finish />} />
+          <Route path="results" element={<Results />} />
         </Routes>
       </Content>
     </Wrapper>
