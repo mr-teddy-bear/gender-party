@@ -19,64 +19,55 @@ export const Results = () => {
   const prizer = useMemo(() => {
     if (!allVotes?.data) return "Пока никого";
     const prizers = checkPrizer(allVotes?.data?.votes);
-    if (!prizers.length) return "Пока никого";
+    if (!prizers?.length) return "Пока никого";
 
-    const newPrizersArr: { name: string; count: number }[] = prizers.map(
-      (item: [string, number]) => {
-        return {
-          name: item[0],
-          count: item[1],
-        };
-      },
-    );
-    const sortArr = newPrizersArr.sort((a, b) => (a.count > b.count ? -1 : 1));
-    if (sortArr.length > 2) {
+    if (prizers.length > 2) {
       return (
         <>
           <PlaceRow>
             <span>
-              Место 1: <b>{sortArr[0].name}</b>
+              Место 1: <b>{prizers[0].name}</b>
             </span>
             <span>
-              Правильные ответы: <b>{sortArr[0].count}</b>
-            </span>
-          </PlaceRow>
-          <PlaceRow>
-            <span>
-              Место 2: <b>{sortArr[1].name}</b>
-            </span>
-            <span>
-              Правильные ответы: <b>{sortArr[1].count}</b>
+              Правильные ответы: <b>{prizers[0].count}</b>
             </span>
           </PlaceRow>
           <PlaceRow>
             <span>
-              Место 3: <b>{sortArr[2].name}</b>
+              Место 2: <b>{prizers[1].name}</b>
             </span>
             <span>
-              Правильные ответы: <b>{sortArr[2].count}</b>
+              Правильные ответы: <b>{prizers[1].count}</b>
+            </span>
+          </PlaceRow>
+          <PlaceRow>
+            <span>
+              Место 3: <b>{prizers[2].name}</b>
+            </span>
+            <span>
+              Правильные ответы: <b>{prizers[2].count}</b>
             </span>
           </PlaceRow>
         </>
       );
     }
-    if (sortArr.length > 1) {
+    if (prizers.length > 1) {
       return (
         <>
           <PlaceRow>
             <span>
-              Место 1: <b>{sortArr[0].name}</b>
+              Место 1: <b>{prizers[0].name}</b>
             </span>
             <span>
-              Правильные ответы: <b>{sortArr[0].count}</b>
+              Правильные ответы: <b>{prizers[0].count}</b>
             </span>
           </PlaceRow>
           <PlaceRow>
             <span>
-              Место 2: <b>{sortArr[1].name}</b>
+              Место 2: <b>{prizers[1].name}</b>
             </span>
             <span>
-              Правильные ответы: <b>{sortArr[1].count}</b>
+              Правильные ответы: <b>{prizers[1].count}</b>
             </span>
           </PlaceRow>
         </>
@@ -86,10 +77,10 @@ export const Results = () => {
     return (
       <PlaceRow>
         <span>
-          Место 1: <b>{sortArr[0].name}</b>
+          Место 1: <b>{prizers[0].name}</b>
         </span>
         <span>
-          Правильные ответы: <b>{sortArr[0].count}</b>
+          Правильные ответы: <b>{prizers[0].count}</b>
         </span>
       </PlaceRow>
     );

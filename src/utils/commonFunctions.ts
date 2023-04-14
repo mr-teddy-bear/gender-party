@@ -284,26 +284,52 @@ export const guys = [
   { name: "Даша(почти Шедова)", rightId: 6 },
 ];
 
+export const checkNameByUserId = (userId: number) => {
+  return guys.find(i => i.rightId === userId)?.name || "Макс";
+};
+
 export const checkPrizer = (votes: Vote[]) => {
-  if (!votes?.length) return "Пока никого";
+  if (!votes?.length) return null;
 
   const rightAnswers = votes.filter(
     answer => answer.voteId === answer.questionId,
   );
 
-  if (!rightAnswers?.length) return "Никто не ответил правильно";
+  if (!rightAnswers?.length) return null;
 
-  const series = rightAnswers.reduce((acc: any, x) => {
-    const last_element = acc[acc.length - 1];
-    if (last_element && last_element[0] === x.user) {
-      last_element[1]++;
+  const prizersObj = {};
+
+  rightAnswers.forEach(item => {
+    if (Object.keys(prizersObj)?.includes(item.user)) {
+      //@ts-ignore
+      prizersObj[item.user] = prizersObj[item.user] + 1;
     } else {
-      acc.push([x.user, 1]);
+      //@ts-ignore
+      prizersObj[item.user] = 1;
     }
-    return acc;
-  }, []);
+  });
 
-  return series;
+  const prizersArr: [string, number][] = Object.entries(prizersObj);
+
+  if (!prizersArr.length) return null;
+
+  const newPrizersArr: { name: string; count: number }[] = prizersArr.map(
+    (item: [string, number]) => {
+      return {
+        name: item[0],
+        count: item[1],
+      };
+    },
+  );
+
+  if (!newPrizersArr?.length) return null;
+
+  console.log(
+    "PRIZERS",
+    newPrizersArr.sort((a, b) => (a.count > b.count ? -1 : 1)),
+  );
+
+  return newPrizersArr.sort((a, b) => (a.count > b.count ? -1 : 1));
 };
 
 export const moreAnswer = (
@@ -311,36 +337,40 @@ export const moreAnswer = (
 ): { name: string; percent: number } | null => {
   if (!votes?.length) return null;
 
-  const series = votes.reduce((acc: any, x) => {
-    const last_element = acc[acc.length - 1];
-    if (last_element && last_element[0] === x.voteId) {
-      last_element[1]++;
-    } else {
-      acc.push([x.voteId, 1]);
-    }
-    return acc;
-  }, []);
+  const seriesObj = {};
 
-  const newSeriesArr: { voteId: number; count: number }[] = series.map(
-    (item: [number, number]) => {
+  votes.forEach(item => {
+    const name = checkNameByUserId(item.voteId);
+    if (Object.keys(seriesObj)?.includes(name)) {
+      //@ts-ignore
+      seriesObj[name] = seriesObj[name] + 1;
+    } else {
+      //@ts-ignore
+      seriesObj[name] = 1;
+    }
+  });
+
+  const seriesArr: [string, number][] = Object.entries(seriesObj);
+
+  if (!seriesArr.length) return null;
+
+  const newSeriesArr: { name: string; percent: number }[] = seriesArr.map(
+    (item: [string, number]) => {
       return {
-        voteId: item[0],
-        count: item[1],
+        name: item[0],
+        percent: Math.ceil((item[1] * 100) / votes.length),
       };
     },
   );
+
   const sortSeriesArr = newSeriesArr.sort((a, b) =>
-    a.count > b.count ? -1 : 1,
+    a.percent > b.percent ? -1 : 1,
   );
   if (!sortSeriesArr.length) return null;
 
   const topSeria = sortSeriesArr[0];
-  const topVoteId = topSeria.voteId;
 
-  const topVoteName = guys.find(i => i.rightId === topVoteId)?.name || "Макс";
-  const topPercent = Math.ceil((topSeria.count * 100) / votes.length);
-
-  return { name: topVoteName, percent: topPercent };
+  return { name: topSeria.name, percent: topSeria.percent };
 };
 
 export const moreAnswersOnQuestions = (votes: Vote[]) => {
