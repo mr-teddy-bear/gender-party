@@ -11,14 +11,14 @@ export const Results = () => {
 
   const topVotes = useMemo(() => {
     if (!allVotes?.data) return [];
-    return moreAnswersOnQuestions(allVotes.data.votes);
+    return moreAnswersOnQuestions(allVotes.data?.votes);
   }, [allVotes?.data]);
 
   /*PRIZERS SEARCH START */
   /*PRIZERS SEARCH START */
   const prizer = useMemo(() => {
     if (!allVotes?.data) return "Пока никого";
-    const prizers = checkPrizer(allVotes.data.votes);
+    const prizers = checkPrizer(allVotes?.data?.votes);
     if (!prizers.length) return "Пока никого";
 
     const newPrizersArr: { name: string; count: number }[] = prizers.map(
